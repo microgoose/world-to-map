@@ -1,0 +1,14 @@
+name: world-to-map
+version: 1.0-SNAPSHOT
+main: io.papermc.plugin.WorldToMap
+api-version: 1.21.4
+commands:
+  export-world-tile:
+    description: Generates tile-map of the entire world
+    usage: /generate-world <world name>
+  export-region-tile:
+    description: Generates tile-map for a specific region
+    usage: /generate-region <world name> <regionX> <regionZ>
+  export-chunk-tile:
+    description: Generates tile-map for a specific chunk
+    usage: /generate-chunk <world name> <chunkX> <chunkZ>
