@@ -32,6 +32,7 @@ public class MCAChunkLoader {
 
         Integer chunkXPos = null;
         Integer chunkZPos = null;
+        String status = null;
         MCASection[] chunkMCASections = null;
 
         while (chunkBuffer.hasRemaining()) {
@@ -45,6 +46,9 @@ public class MCAChunkLoader {
                     continue;
                 case "zPos":
                     chunkZPos = chunkBuffer.getInt();
+                    continue;
+                case "Status":
+                    status = NBTReader.readString(chunkBuffer);
                     continue;
                 case "sections":
                     chunkMCASections = readSections(chunkBuffer);
@@ -61,7 +65,7 @@ public class MCAChunkLoader {
         if (chunkMCASections == null)
             throw new IllegalStateException("Chunk sections not initialized");
 
-        return new MCAChunk(chunkXPos, chunkZPos, chunkMCASections);
+        return new MCAChunk(chunkXPos, chunkZPos, status, chunkMCASections);
     }
 
     public static MCAChunk loadChunk(ByteBuffer chunkBuffer, int length, int compressionType) {

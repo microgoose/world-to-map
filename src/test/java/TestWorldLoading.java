@@ -13,7 +13,7 @@ public class TestWorldLoading {
         for (int x = 0; x < CHUNK_SIDE; x++) {
             for (int z = 0; z < CHUNK_SIDE; z++) {
                 MCAChunk chunk = manager.loadChunk(x, z);
-                System.out.printf("Chunk: :%s; :%s; Sections count: %s; %n", chunk.x, chunk.z, chunk.sections.length);
+                System.out.printf("Chunk: :%s; :%s; Status: %s, Sections count: %s; %n", chunk.x, chunk.z, chunk.status, chunk.sections.length);
             }
         }
 

@@ -17,6 +17,8 @@ public class ChunkScanner {
         MCAChunk chunk = world.loadChunk(chunkX, chunkZ);
         if (chunk == null) return;
 
-        chunkHandler.handleChunk(chunk);
+        if ("minecraft:full".equals(chunk.status)) {
+            chunkHandler.handleChunk(chunk);
+        }
     }
 }
