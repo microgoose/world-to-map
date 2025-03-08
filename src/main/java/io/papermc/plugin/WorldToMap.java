@@ -1,8 +1,8 @@
 package io.papermc.plugin;
 
-import io.papermc.plugin.command.controller.ExportChunkTileCommand;
-import io.papermc.plugin.command.controller.ExportRegionTileCommand;
-import io.papermc.plugin.command.controller.ExportWorldTileCommand;
+import io.papermc.plugin.command.ExportChunkTileCommand;
+import io.papermc.plugin.command.ExportRegionTileCommand;
+import io.papermc.plugin.command.ExportWorldTileCommand;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 

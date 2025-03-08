@@ -1,9 +1,9 @@
-import io.papermc.plugin.world.manager.WorldManager;
-import io.papermc.plugin.world.mca.model.MCAChunk;
+import io.papermc.plugin.tiler.world.manager.WorldManager;
+import io.papermc.plugin.tiler.world.mca.model.MCAChunk;
 
 import java.nio.file.Path;
 
-import static io.papermc.plugin.core.config.RegionConfig.CHUNK_SIDE;
+import static io.papermc.plugin.tiler.world.config.RegionConfig.CHUNK_SIDE;
 
 public class TestWorldLoading {
     public static void main(String[] args) {
