@@ -2,20 +2,21 @@ package io.papermc.plugin.world.scanner;
 
 import io.papermc.plugin.world.manager.WorldManager;
 import io.papermc.plugin.world.mca.model.MCAChunk;
+import io.papermc.plugin.world.scanner.common.ChunkScanHandler;
 
 public class ChunkScanner {
     private final WorldManager world;
-    private final WorldStream worldStream;
+    private final ChunkScanHandler chunkHandler;
 
-    public ChunkScanner(WorldManager world, WorldStream worldStream) {
+    public ChunkScanner(WorldManager world, ChunkScanHandler chunkHandler) {
         this.world = world;
-        this.worldStream = worldStream;
+        this.chunkHandler = chunkHandler;
     }
 
     public void scanChunk(int chunkX, int chunkZ) {
         MCAChunk chunk = world.loadChunk(chunkX, chunkZ);
         if (chunk == null) return;
 
-        worldStream.handleChunk(chunk);
+        chunkHandler.handleChunk(chunk);
     }
 }

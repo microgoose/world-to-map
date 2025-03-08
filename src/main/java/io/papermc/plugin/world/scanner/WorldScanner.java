@@ -16,13 +16,13 @@ public class WorldScanner {
     private final Logger logger;
     private final Path worldFolder;
     private final WorldManager worldManager;
-    private final WorldStream worldStream;
+    private final RegionScanner regionScanner;
 
-    public WorldScanner(Logger logger, Path worldFolder, WorldManager worldManager, WorldStream worldStream) {
+    public WorldScanner(Logger logger, Path worldFolder, WorldManager worldManager, RegionScanner regionScanner) {
         this.logger = logger;
         this.worldFolder = worldFolder;
         this.worldManager = worldManager;
-        this.worldStream = worldStream;
+        this.regionScanner = regionScanner;
     }
 
     public void handleWorld() {
@@ -37,18 +37,13 @@ public class WorldScanner {
             return cmp;
         });
 
-        ChunkScanner chunkScanner = new ChunkScanner(worldManager, worldStream);
-        RegionScanner regionScanner = new RegionScanner(chunkScanner);
-
         for (Path regionPath : regionsPaths) {
             long startTime = System.currentTimeMillis();
             logger.info("Region " + regionPath + " scanning start");
 
             int[] coords = extractRegionCoordinates(regionPath);
-
             worldManager.loadRegion(coords[0], coords[1]);
             regionScanner.scanRegion(coords[0], coords[1]);
-            worldStream.afterRegion(coords[0], coords[1]);
 
             long deltaTime = System.currentTimeMillis() - startTime;
             logger.info(String.format("Region %s scanning done (%sms)", regionPath, deltaTime));

@@ -1,5 +1,7 @@
 package io.papermc.plugin.command.service;
 
+import io.papermc.plugin.command.handler.TileChunkHandler;
+import io.papermc.plugin.command.handler.TileRegionHandler;
 import io.papermc.plugin.exporter.TileExporter;
 import io.papermc.plugin.exporter.repository.TileRepository;
 import io.papermc.plugin.renderer.ChunkRenderer;
@@ -24,35 +26,34 @@ public class TileExportService {
         this.plugin = plugin;
     }
 
+    public void generateChunkMap(World world, int chunkX, int chunkZ) {
+        logger.info("Generating chunk tiles [" + chunkX + ", " + chunkZ + "] in " + world.getName() + "...");
+
+        WorldManager worldManager = new WorldManager(getWorldFolder(world));
+        TileExporter tileExporter = buildTileExporter(world, worldManager);
+        TileChunkHandler tileChunkHandler = new TileChunkHandler(tileExporter);
+
+        ChunkScanner chunkScanner = new ChunkScanner(worldManager, tileChunkHandler);
+        chunkScanner.scanChunk(chunkX, chunkZ);
+        tileExporter.exportAll();
+
+        logger.info("Generating chunk tiles [" + chunkX + ", " + chunkZ + "] in " + world.getName() + " done.");
+    }
+
     public void generateRegionMap(World world, int regionX, int regionZ) {
         logger.info("Generating region tiles [" + regionX + ", " + regionZ + "] in " + world.getName() + "...");
 
         WorldManager worldManager = new WorldManager(getWorldFolder(world));
         worldManager.loadRegion(regionX, regionZ);
-
         TileExporter tileExporter = buildTileExporter(world, worldManager);
-        ChunkScanner chunkScanner = new ChunkScanner(worldManager, tileExporter);
-        RegionScanner regionScanner = new RegionScanner(chunkScanner);
+        TileChunkHandler tileChunkHandler = new TileChunkHandler(tileExporter);
 
+        ChunkScanner chunkScanner = new ChunkScanner(worldManager, tileChunkHandler);
+        RegionScanner regionScanner = new RegionScanner(chunkScanner);
         regionScanner.scanRegion(regionX, regionZ);
         tileExporter.exportAll();
 
         logger.info("Generating region tiles [" + regionX + ", " + regionZ + "] in " + world.getName() + " done.");
-    }
-
-    public void generateChunkMap(World world, int chunkX, int chunkZ) {
-        logger.info("Generating chunk tiles [" + chunkX + ", " + chunkZ + "] in " + world.getName() + "...");
-
-        WorldManager worldManager = new WorldManager(getWorldFolder(world));
-        TileRepository tileRepository = new TileRepository(getOutputFolder(world));
-        ChunkRenderer chunkRenderer = new ChunkRenderer(world.getMinHeight());
-        TileExporter tileExporter = new TileExporter(chunkRenderer, tileRepository, worldManager);
-
-        ChunkScanner chunkScanner = new ChunkScanner(worldManager, tileExporter);
-        chunkScanner.scanChunk(chunkX, chunkZ);
-        tileExporter.exportAll();
-
-        logger.info("Generating chunk tiles [" + chunkX + ", " + chunkZ + "] in " + world.getName() + " done.");
     }
 
     public void generateWorldMap(World world) {
@@ -60,7 +61,12 @@ public class TileExportService {
 
         WorldManager worldManager = new WorldManager(getWorldFolder(world));
         TileExporter tileExporter = buildTileExporter(world, worldManager);
-        WorldScanner worldScanner = new WorldScanner(logger, getWorldFolder(world), worldManager, tileExporter);
+        TileChunkHandler tileChunkHandler = new TileChunkHandler(tileExporter);
+        TileRegionHandler tileRegionHandler = new TileRegionHandler(tileExporter);
+
+        ChunkScanner chunkScanner = new ChunkScanner(worldManager, tileChunkHandler);
+        RegionScanner regionScanner = new RegionScanner(chunkScanner, tileRegionHandler);
+        WorldScanner worldScanner = new WorldScanner(logger, getWorldFolder(world), worldManager, regionScanner);
         worldScanner.handleWorld();
 
         logger.info("Generating tiles in " + world.getName() + " done.");

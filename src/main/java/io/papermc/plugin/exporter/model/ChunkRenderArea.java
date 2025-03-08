@@ -89,7 +89,7 @@ public class ChunkRenderArea implements RenderArea {
     }
 
     private int getSolidBlockY(MCAChunk chunk, int x, int z) {
-        if (chunk == null) return Integer.MIN_VALUE;
+        if (chunk == null) return Integer.MIN_VALUE; //todo nether world?
 
         for (int i = chunk.sections.length - 1; i >= 0; i--) {
             MCASection section = chunk.sections[i];

@@ -8,7 +8,6 @@ import io.papermc.plugin.renderer.ChunkRenderer;
 import io.papermc.plugin.renderer.model.PixelBuffer;
 import io.papermc.plugin.world.manager.WorldManager;
 import io.papermc.plugin.world.mca.model.MCAChunk;
-import io.papermc.plugin.world.scanner.WorldStream;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,7 +15,7 @@ import java.awt.image.BufferedImage;
 import static io.papermc.plugin.exporter.config.TileConfig.TILE_SIDE;
 import static io.papermc.plugin.renderer.config.RendererConfig.CHUNK_PIXEL_SIDE;
 
-public class TileExporter implements WorldStream {
+public class TileExporter {
     private final ChunkRenderer chunkRenderer;
     private final TileRepository tileRepository;
     private final WorldManager worldManager;
@@ -25,18 +24,6 @@ public class TileExporter implements WorldStream {
         this.chunkRenderer = chunkRenderer;
         this.tileRepository = tileRepository;
         this.worldManager = worldManager;
-    }
-
-    @Override
-    public void handleChunk(MCAChunk chunk) {
-        processChunk(chunk);
-    }
-
-    @Override
-    public void afterRegion(int regionX, int regionY) {
-        //todo is not multi-threading
-        //todo if zoom (0-3 lvls) changes, it will slow down plugin
-        exportAll();
     }
 
     public void processChunk(MCAChunk chunk) {
