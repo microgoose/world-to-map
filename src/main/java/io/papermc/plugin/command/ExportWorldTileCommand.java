@@ -13,9 +13,9 @@ public class ExportWorldTileCommand implements CommandExecutor {
     private final JavaPlugin plugin;
     private final TileExportService tileExportService;
 
-    public ExportWorldTileCommand(JavaPlugin plugin) {
+    public ExportWorldTileCommand(JavaPlugin plugin, TileExportService tileExportService) {
         this.plugin = plugin;
-        this.tileExportService = new TileExportService(plugin);
+        this.tileExportService = tileExportService;
     }
 
     @Override

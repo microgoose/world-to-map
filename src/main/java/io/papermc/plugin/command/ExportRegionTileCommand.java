@@ -13,9 +13,9 @@ public class ExportRegionTileCommand implements CommandExecutor {
     private final JavaPlugin plugin;
     private final TileExportService tileExportService;
 
-    public ExportRegionTileCommand(JavaPlugin plugin) {
+    public ExportRegionTileCommand(JavaPlugin plugin, TileExportService tileExportService) {
         this.plugin = plugin;
-        this.tileExportService = new TileExportService(plugin);
+        this.tileExportService = tileExportService;
     }
 
     @Override

@@ -13,9 +13,9 @@ public class ExportChunkTileCommand implements CommandExecutor {
     private final JavaPlugin plugin;
     private final TileExportService tileExportService;
 
-    public ExportChunkTileCommand(JavaPlugin plugin) {
+    public ExportChunkTileCommand(JavaPlugin plugin, TileExportService tileExportService) {
         this.plugin = plugin;
-        this.tileExportService = new TileExportService(plugin);
+        this.tileExportService = tileExportService;
     }
 
     @Override
