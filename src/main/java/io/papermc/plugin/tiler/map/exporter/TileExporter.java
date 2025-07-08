@@ -43,7 +43,8 @@ public class TileExporter {
             int localX = Math.floorMod(chunk.getX(), chunkPerTile);
             int localY = Math.floorMod(chunk.getZ(), chunkPerTile);
 
-            BufferedImage tileImage = tileRepository.getTile(compressionFactor, tX, tY);
+            int storageZoom = TileConfig.MAX_ZOOM_DISTANT - zoom;
+            BufferedImage tileImage = tileRepository.getTile(storageZoom, tX, tY);
 
             int offsetX = localX * scaledChunkSide;
             int offsetY = localY * scaledChunkSide;
@@ -54,7 +55,7 @@ public class TileExporter {
             g2d.drawImage(scaledChunkImage, offsetX, offsetY, null);
             g2d.dispose();
 
-            tileRepository.updateTile(compressionFactor, tX, tY, tileImage);
+            tileRepository.updateTile(storageZoom, tX, tY, tileImage);
         }
     }
 

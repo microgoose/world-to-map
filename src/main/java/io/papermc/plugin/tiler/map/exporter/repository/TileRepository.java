@@ -33,7 +33,7 @@ public class TileRepository {
     }
 
     private Path getTilePath(int zoom, int tX, int tY) {
-        return outputDirectory.resolve("z" + zoom + "/t." + tX + "." + tY + ".png");
+        return outputDirectory.resolve(zoom + "/" + tX + "/" + tY + ".png");
     }
 
     public void release() {
