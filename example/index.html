@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Minecraft → Leaflet CRS.Simple</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+
+  <style>
+    html, body { height: 100%; margin: 0; }
+    #map       { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+
+<script>
+  /* ----------- конфиг ----------- */
+  const TILE_SIZE    = 256;
+  const MIN_ZOOM     = 0;
+  const MAX_ZOOM     = 3;
+  const INITIAL_ZOOM = 2;
+  const WORLD_CENTER = [0, 0];
+
+  /* ----------- карта ----------- */
+  const map = L.map('map', {
+    crs      : L.CRS.Simple,
+    center   : WORLD_CENTER,
+    zoom     : INITIAL_ZOOM,
+    minZoom  : MIN_ZOOM,
+    maxZoom  : MAX_ZOOM,
+    zoomSnap : 1,
+    noWrap   : true
+  });
+
+  L.tileLayer('tiles/{z}/{x}/{y}.png', {
+    tileSize : TILE_SIZE,
+    minZoom  : MIN_ZOOM,
+    maxZoom  : MAX_ZOOM,
+    noWrap   : true
+  }).addTo(map);
+
+  map.on('zoomend', () => console.log('zoom', map.getZoom()));
+</script>
+</body>
+</html>
